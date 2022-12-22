@@ -12,9 +12,8 @@
                 </xpath>
 
                 <xpath expr="//button[@name='action_confirm']" position="after">
-                     <button name="action_request_approval" string="Demander l'approbation" type="object" class="oe_highlight" position="attributes">
-                     <attribute name="invisible">[('state', 'not in', ['draft'])]</attribute>
-                </button>
+                     <button name="action_request_approval" string="Demander l'approbation" type="object"/>
+
                 </xpath>
             </field>
         </record>
