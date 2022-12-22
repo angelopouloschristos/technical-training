@@ -7,13 +7,11 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def action_confirm(self):
-        #partner = self.partner_id
+        # Récupération du partenaire associé à la commande en cours
+        partner = self.partner_id
 
-        #if partner.max_amount and self.amount_total > partner.max_amount:
-        #    raise Exception("Le montant total de la commande dépasse le montant maximal de validation du partenaire.")
-        max_amount = self.user_has_required_level()
-
-        if self.amount_total <= max_amount:
+        # Vérification que le montant total de la commande ne dépasse pas le montant maximal de validation du partenaire
+        if self.amount_total <= partner.max_amount or partner.max_amount is None:
             for line in self.order_line:
                 employee = line.employee_id
                 if not employee.user_id:
@@ -30,10 +28,20 @@ class SaleOrder(models.Model):
                     'partner_ids': [(4, partner.id)],
                 })
 
-                return super(SaleOrder, self).action_confirm()
+            # Confirmation de la commande
+            return super(SaleOrder, self).action_confirm()
         else:
-            return self.message_post(body="Le montant total de la commande dépasse le montant maximal de validation du partenaire.")
+            self.message_post(
+                body="La commande nécessite une approbation de la part d'un gestionnaire de niveau supérieur.")
 
+            # Renvoi d'une action pour afficher la commande et lui demander l'approbation
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'sale.order',
+                'res_id': self.id,
+                'view_mode': 'form',
+                'target': 'current',
+            }
 
 
     def user_has_required_level(self):
