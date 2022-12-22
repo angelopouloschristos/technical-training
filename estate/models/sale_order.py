@@ -9,9 +9,11 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         # Récupération du partenaire associé à la commande en cours
         partner = self.partner_id
+        max_amount = self.user_has_required_level()
+
 
         # Vérification que le montant total de la commande ne dépasse pas le montant maximal de validation du partenaire
-        if self.amount_total <= partner.max_amount or partner.max_amount is None:
+        if self.amount_total <= max_amount and self.amount_total <= partner.max_amount or partner.max_amount is None:
             for line in self.order_line:
                 employee = line.employee_id
                 if not employee.user_id:
