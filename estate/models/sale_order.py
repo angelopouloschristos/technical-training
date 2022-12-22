@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         partner = self.partner_id
-        if partner.max_amount and self.amount_total > partner.max_amount:
+        if partner.approval_amount and self.amount_total > partner.approval_amount:
             raise Exception("Le montant total de la commande dépasse le montant maximal de validation du partenaire.")
 
         if self.amount_total <= 500:
