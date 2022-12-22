@@ -1,11 +1,12 @@
+# -*- coding: utf-8 -*-
 {
-    "name": "Estate",  # The name that will appear in the App list
-    "version": "16.0",  # Version
-    "application": True,  # This line says the module is an App, and not a module
-    "depends": ["base"],  # dependencies
-    "data": [
-
-    ],
-    "installable": True,
-    'license': 'LGPL-3',
+    'name': "helb_project",
+    'summary': """Project for HELB Student""",
+    'author': "Patryk Krasucki",
+    'website': "http://www.yourcompany.com",
+    'category': 'Uncategorized',
+    'license': 'AGPL-3',
+    'version': '16.0.0.1',
+    'depends': ['base', 'sale_management', 'calendar', 'hr'],
+    'data': ["views/res_partner.xml","views/res_groups.xml","views/sale_order.xml"]
 }
