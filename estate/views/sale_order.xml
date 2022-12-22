@@ -9,6 +9,7 @@
                 <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='tax_id']" position="after">
                     <field name="training_date"/>
                     <field name="employee_id"/>
+                    <button name="action_request_approval" string="Demander l'approbation" type="object" class="oe_highlight"/>
                 </xpath>
             </field>
         </record>
