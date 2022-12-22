@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from odoo import api, models, fields
 
-
+##version fonctionnel
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
