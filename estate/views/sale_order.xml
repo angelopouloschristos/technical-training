@@ -11,7 +11,7 @@
                     <field name="employee_id"/>
                 </xpath>
                 <button name="action_request_approval" string="Demander l'approbation" type="object" class="oe_highlight" position="after">
-                    <xpath expr="/form/header/button[@name='action_confirm']" position="after"/>
+                    <xpath expr="/form/sheet/button[@name='action_confirm']" position="after"/>
                 </button>
             </field>
         </record>
