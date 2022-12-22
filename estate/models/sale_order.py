@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
 
                 return super(SaleOrder, self).action_confirm()
         else:
-            raise Exception("Le montant total de la commande dépasse le montant maximal de validation du partenaire.")
+            return self.message_post("Le montant total de la commande dépasse le montant maximal de validation du partenaire.")
 
 
 
