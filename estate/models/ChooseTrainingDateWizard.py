@@ -2,7 +2,7 @@ from odoo import api, fields, models, _
 
 
 class ChooseTrainingDateWizard(models.TransientModel):
-    _name = 'choose.training.date.wizard'
+    name = 'choose.training.date.wizard'
 
     start_date = fields.Date(string='Start Date', required=True)
     end_date = fields.Date(string='End Date', required=True)
