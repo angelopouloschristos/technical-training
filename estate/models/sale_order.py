@@ -2,15 +2,24 @@ from datetime import timedelta
 
 from odoo import api, models, fields
 
-##version fonctionnel
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    approved_orders_count = fields.Integer(string="Nombre de commandes approuvées", compute="_compute_approved_orders_count")
+    training_date = fields.Date(string="Date de la formation", required=True)
+
+    def _compute_approved_orders_count(self):
+        for order in self:
+            order.approved_orders_count = self.env['sale.order'].search_count([
+                ('user_id', '=', self.env.user.id),
+                ('state', '=', 'sale'),
+            ])
 
     def action_confirm(self):
         # Récupération du partenaire associé à la commande en cours
         partner = self.partner_id
         max_amount = self.user_has_required_level()
-
+        order_line = self.order_line[0]
 
         # Vérification que le montant total de la commande ne dépasse pas le montant maximal de validation du partenaire
         if self.amount_total <= max_amount and self.amount_total <= partner.max_amount or partner.max_amount is None:
@@ -24,20 +33,18 @@ class SaleOrder(models.Model):
                     partner = employee.user_id.partner_id
                 event = self.env['calendar.event'].create({
                     'name': 'Formation Odoo',
-                    'start': line.training_date,
-                    'stop': line.training_date + timedelta(hours=8),
+                    'start': order.training_date,
+                    'stop': order.training_date + timedelta(hours=8),
                     'allday': True,
                     'partner_ids': [(4, partner.id)],
                 })
 
             self.env.user.approved_orders_count += 1
-            
+
             self.message_post(body="La commande a été approuvée par %s" % self.env.user.name)
 
             # Confirmation de la commande
             return super(SaleOrder, self).action_confirm()
-
-
 
         else:
             self.message_post(
@@ -51,7 +58,6 @@ class SaleOrder(models.Model):
                 'view_mode': 'form',
                 'target': 'current',
             }
-
 
     def user_has_required_level(self):
         # Récupération de l'utilisateur actuel
@@ -67,10 +73,10 @@ class SaleOrder(models.Model):
         for group in groups:
             if group.max_amount:
                 maxamountapproval = group.max_amount
-                #user_level = max(user_level, group.max_amount)
+                # user_level = max(user_level, group.max_amount)
 
         # Comparaison du niveau de gestionnaire de l'utilisateur au niveau requis
-        #return user_level >= required_level
+        # return user_level >= required_level
         return maxamountapproval
 
     def action_request_approval(self):
