@@ -31,6 +31,8 @@ class SaleOrder(models.Model):
                 })
 
             self.env.user.approved_orders_count += 1
+            
+            self.message_post(body="La commande a été approuvée par %s" % self.env.user.name)
 
             # Confirmation de la commande
             return super(SaleOrder, self).action_confirm()
