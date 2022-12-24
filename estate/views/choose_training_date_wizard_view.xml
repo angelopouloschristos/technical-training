@@ -3,7 +3,7 @@
     <data>
         <record id="view_choose_training_date_wizard_form" model="ir.ui.view">
             <field name="_name">choose.training.date.wizard.form</field>
-            <field name="model">choose.training.date.wizard</field>
+            <field name="model">choose_training_date_wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Choose Training Date">
