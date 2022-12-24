@@ -9,9 +9,8 @@
                 <form string="Sale Order Line">
                     <sheet>
                         <!-- Other fields -->
-                        <button name="open_training_date_wizard" string="Select Training Date" type="action"
-                                class="oe_link" context="{'default_order_line_id': active_id}"
-                                action="your_wizard_action_id"/>
+                        <button name="open_training_date_wizard" string="Select Training Date" type="object"
+                                class="oe_link"/>
                     </sheet>
                 </form>
             </field>
