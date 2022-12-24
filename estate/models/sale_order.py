@@ -30,12 +30,8 @@ class SaleOrder(models.Model):
                     'partner_ids': [(4, partner.id)],
                 })
 
-
-            # Incrémentation du compteur de commandes approuvées pour le partenaire associé à la commande
-            self.partner_id.approved_orders_count += 1
-            self.message_post(body="Number of approved orders: %s" % self.partner_id.approved_orders_count)
-
-
+            self.env.user.approved_orders_count += 1
+            
             # Confirmation de la commande
             return super(SaleOrder, self).action_confirm()
 
