@@ -6,6 +6,15 @@ from odoo import api, models, fields
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    def open_choose_training_date_wizard(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'choose.training.date.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
+
     def action_confirm(self):
         # Récupération du partenaire associé à la commande en cours
         partner = self.partner_id
