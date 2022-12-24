@@ -1,8 +1,8 @@
 from odoo import api, models, fields
 
 
-class TrainingDateWizard(models.TransientModel):
-    _name = 'training.date.wizard'
+class TrainingDateWizard(models.Model):
+    _inherit = 'sale.order'
     _description = 'Wizard to select the training date'
 
     training_date = fields.Date(string='Training Date')
