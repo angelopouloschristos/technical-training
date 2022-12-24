@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
                 })
 
             self.env.user.approved_orders_count += 1
-            
+
             # Confirmation de la commande
             return super(SaleOrder, self).action_confirm()
 
