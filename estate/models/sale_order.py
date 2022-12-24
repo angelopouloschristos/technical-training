@@ -9,11 +9,10 @@ class SaleOrder(models.Model):
     def open_choose_training_date_wizard(self):
         return {
             'type': 'ir.actions.act_window',
-            'res_model': 'choose.training.date.wizard',
+            'res_model': 'choose.training.date.wizard',  # Correction ici
             'view_mode': 'form',
             'target': 'new',
         }
-
 
     def action_confirm(self):
         # Récupération du partenaire associé à la commande en cours
@@ -70,17 +69,17 @@ class SaleOrder(models.Model):
         groups = user.groups_id
 
         # Initialisation du niveau de gestionnaire de l'utilisateur à 0
-        maxamountapproval = default_max_amount
+        max_amount_approval = default_max_amount
 
         # Vérification du niveau de gestionnaire de l'utilisateur
         for group in groups:
             if group.max_amount:
-                maxamountapproval = group.max_amount
+                max_amount_approval = group.max_amount
                 #user_level = max(user_level, group.max_amount)
 
         # Comparaison du niveau de gestionnaire de l'utilisateur au niveau requis
         #return user_level >= required_level
-        return maxamountapproval
+        return max_amount_approval
 
     def action_request_approval(self):
         # Sélection du gestionnaire avec le moins d'approbations en attente d'assignation (optionnel)
