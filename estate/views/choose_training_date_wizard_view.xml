@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="view_choose_training_date_wizard_form" model="ir.ui.view">
-            <field name="_name">choose.training.date.wizard.form</field>
-            <field name="inherit_id" ref="base.view_choose_training_date_wizard_form"/>
-            <field name="model">choose_training_date_wizard</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Choose Training Date">
-                    <group>
-                        <field name="start_date" required="1"/>
-                        <field name="end_date" required="1"/>
-                    </group>
-                    <footer>
-                        <button name="confirm_dates" string="Confirm" type="object" class="btn-primary"/>
-                        or
-                        <button string="Cancel" class="btn-secondary" special="cancel"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
-    </data>
+    <record id="view_choose_training_date_wizard_form" model="ir.ui.view">
+        <field name="_inherit">choose.training.date.wizard.form</field>
+        <field name="model">choose.training.date.wizard</field>  <!-- Vérifiez que le nom du modèle correspond à celui défini dans votre classe Python -->
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Choose Training Date">
+                <group>
+                    <field name="start_date" required="1"/>
+                    <field name="end_date" required="1"/>
+                </group>
+                <footer>
+                    <button name="confirm_dates" string="Confirm" type="object" class="btn-primary"/>
+                    or
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
 </odoo>
+
