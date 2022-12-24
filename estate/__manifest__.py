@@ -12,6 +12,6 @@
         'views/res_partner.xml',
         'views/res_groups.xml',
         'views/sale_order.xml',
-        'views/choose_training_date_wizard_form.xml',
+        'views/choose_training_date_wizard_view.xml',
     ]
 }
