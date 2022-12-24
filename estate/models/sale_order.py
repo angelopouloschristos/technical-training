@@ -15,6 +15,19 @@ class SaleOrder(models.Model):
                 ('state', '=', 'sale'),
             ])
 
+    @api.model
+    def open_training_date_wizard(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Date de formation',
+            'res_model': 'sale.order',
+            'res_id': self.id,
+            'view_mode': 'form',
+            'view_type': 'form',
+            'view_id': self.env.ref('sale.view_form_sale_order_wizard').id,
+            'target': 'new',
+        }
+
     def action_confirm(self):
         # Récupération du partenaire associé à la commande en cours
         partner = self.partner_id
