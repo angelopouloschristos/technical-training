@@ -22,16 +22,17 @@ class SaleOrder(models.Model):
                     })
                 else:
                     partner = employee.user_id.partner_id
-                # Création de l'évènement récurrent chaque année à la même date
-                event = self.env['calendar.event'].create({
-                    'name': 'Formation Odoo',
-                    'start': line.training_date,
-                    'stop': line.training_date + timedelta(hours=8),
-                    'allday': True,
-                    'partner_ids': [(4, partner.id)],
-                    'rrule': 'FREQ=YEARLY;INTERVAL=1',
-                })
-
+                # Vérifie que la date de formation a bien été sélectionnée
+                if line.training_date:
+                    # Création de l'évènement récurrent chaque année à la même date
+                    event = self.env['calendar.event'].create({
+                        'name': 'Formation Odoo',
+                        'start': line.training_date,
+                        'stop': line.training_date + timedelta(hours=8),
+                        'allday': True,
+                        'partner_ids': [(4, partner.id)],
+                        'rrule': 'FREQ=YEARLY;INTERVAL=1',
+                    })
             self.env.user.approved_orders_count += 1
 
             self.message_post(body="La commande a été approuvée par %s" % self.env.user.name)
