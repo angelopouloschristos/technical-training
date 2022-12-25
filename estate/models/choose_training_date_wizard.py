@@ -6,7 +6,7 @@ class ChooseTrainingDateWizard(models.TransientModel):
 
     training_date = fields.Date(string='Training Date', required=True)
 
-    @api.multi
+    @api.model
     def confirm(self):
         # Récupération de la ligne de commande sélectionnée
         active_id = self._context.get('active_id')
