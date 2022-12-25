@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="ir.ui.view" id="choose_training_date_wizard_form">
+        <record id="choose_training_date_wizard_form" model="ir.ui.view">
             <field name="name">Choose Training Date Wizard Form</field>
             <field name="model">choose.training.date.wizard</field>
             <field name="arch" type="xml">
-                <form>
+                <form __validate__="1">
                     <header>
                         <button string="Confirm" type="object" name="confirm" class="btn-primary"/>
-                        <button string="Cancel" type="object" name="cancel" class="btn-secondary" />
+                        <button string="Cancel" type="object" name="cancel" class="btn-secondary"/>
                     </header>
                     <sheet>
                         <group>
