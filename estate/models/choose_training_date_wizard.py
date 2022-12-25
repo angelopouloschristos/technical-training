@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 
-
+##version fonctionnel
 class ChooseTrainingDateWizard(models.TransientModel):
     _name = 'choose.training.date.wizard'
 
