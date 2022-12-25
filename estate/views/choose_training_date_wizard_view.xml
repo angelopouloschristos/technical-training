@@ -8,12 +8,12 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Confirm" type="object" name="confirm"/>
-                        <button string="Cancel" type="object" name="cancel"/>
+                        <button string="Confirm" type="object" name="confirm" class="btn-primary"/>
+                        <button string="Cancel" type="object" name="cancel" class="btn-secondary"/>
                     </header>
                     <sheet>
                         <group>
-                            <field name="training_date" required="1"/>
+                            <field name="training_date"/>
                         </group>
                     </sheet>
                 </form>

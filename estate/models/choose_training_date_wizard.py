@@ -14,3 +14,8 @@ class ChooseTrainingDateWizard(models.TransientModel):
 
         # Mise à jour de la date de formation de la ligne de commande
         order_line.write({'training_date': self.training_date})
+        return {'type': 'ir.actions.act_window_close'}
+
+    @api.model
+    def cancel(self):
+        return {'type': 'ir.actions.act_window_close'}
