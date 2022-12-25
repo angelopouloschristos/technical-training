@@ -22,18 +22,12 @@ class SaleOrder(models.Model):
                     })
                 else:
                     partner = employee.user_id.partner_id
-                # Création de l'évènement récurrent tous les jours à la même heure
                 event = self.env['calendar.event'].create({
                     'name': 'Formation Odoo',
                     'start': line.training_date,
                     'stop': line.training_date + timedelta(hours=8),
                     'allday': True,
                     'partner_ids': [(4, partner.id)],
-                    'rrule_type': 'daily',
-                    'recurrency': True,
-                    'end_type': 'end_date',
-                    'final_date': fields.Date.to_string(
-                        fields.Date.from_string(line.training_date) + timedelta(days=365)),
                 })
 
             self.env.user.approved_orders_count += 1
@@ -42,7 +36,6 @@ class SaleOrder(models.Model):
 
             # Confirmation de la commande
             return super(SaleOrder, self).action_confirm()
-
 
         else:
             self.message_post(
