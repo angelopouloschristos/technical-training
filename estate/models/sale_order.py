@@ -2,9 +2,7 @@ from datetime import timedelta
 
 from odoo import api, models, fields
 
-
-
-
+##version fonctionnel
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -12,6 +10,7 @@ class SaleOrder(models.Model):
         # Récupération du partenaire associé à la commande en cours
         partner = self.partner_id
         max_amount = self.user_has_required_level()
+
 
         # Vérification que le montant total de la commande ne dépasse pas le montant maximal de validation du partenaire
         if self.amount_total <= max_amount and self.amount_total <= partner.max_amount or partner.max_amount is None:
@@ -32,7 +31,7 @@ class SaleOrder(models.Model):
                 })
 
             self.env.user.approved_orders_count += 1
-
+            
             self.message_post(body="La commande a été approuvée par %s" % self.env.user.name)
 
             # Confirmation de la commande
@@ -53,6 +52,7 @@ class SaleOrder(models.Model):
                 'target': 'current',
             }
 
+
     def user_has_required_level(self):
         # Récupération de l'utilisateur actuel
         user = self.env.user
@@ -61,17 +61,17 @@ class SaleOrder(models.Model):
         groups = user.groups_id
 
         # Initialisation du niveau de gestionnaire de l'utilisateur à 0
-        max_amount_approval = default_max_amount
+        maxamountapproval = default_max_amount
 
         # Vérification du niveau de gestionnaire de l'utilisateur
         for group in groups:
             if group.max_amount:
-                max_amount_approval = group.max_amount
-                # user_level = max(user_level, group.max_amount)
+                maxamountapproval = group.max_amount
+                #user_level = max(user_level, group.max_amount)
 
         # Comparaison du niveau de gestionnaire de l'utilisateur au niveau requis
-        # return user_level >= required_level
-        return max_amount_approval
+        #return user_level >= required_level
+        return maxamountapproval
 
     def action_request_approval(self):
         # Sélection du gestionnaire avec le moins d'approbations en attente d'assignation (optionnel)
@@ -130,3 +130,5 @@ class SaleOrder(models.Model):
 
         # Renvoi du gestionnaire sélectionné
         return selected_manager
+
+
