@@ -6,12 +6,20 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='tax_id']" position="after">
+                <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='tax_id']"
+                       position="after">
                     <field name="training_date"/>
                     <field name="employee_id"/>
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="after">
-                    <button name="open_choose_training_date_wizard" string="Choose Training Date"/>
+                    <button name="open_choose_training_date_wizard" string="Choose Training Date" type="action">
+                        <action name="open_choose_training_date_wizard" type="ir.actions.act_window">
+                            <view_mode>form</view_mode>
+                            <view_type>form</view_type>
+                            <res_model>choose.training.date.wizard</res_model>
+                            <target>new</target>
+                        </action>
+                    </button>
                 </xpath>
             </field>
         </record>
