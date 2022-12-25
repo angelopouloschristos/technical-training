@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button string="Confirm" type="object" name="confirm" class="btn-primary"/>
-                        <button string="Cancel" type="object" name="cancel" class="btn-secondary"/>
+                        <button string="Confirm" type="object" name="confirm"/>
+                        <button string="Cancel" type="object" name="cancel"/>
                     </header>
                     <sheet>
                         <group>
