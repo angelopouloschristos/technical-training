@@ -7,7 +7,7 @@
     'category': 'Uncategorized',
     'license': 'LGPL-3',
     'version': '16.0.0.1',
-    'depends': ['base', 'sale_management', 'calendar', 'hr', ],
+    'depends': ['base', 'sale_management', 'calendar', 'hr', 'choose.training.date.wizard'],
     'data': [
         "views/res_partner.xml",
         "views/res_groups.xml",
