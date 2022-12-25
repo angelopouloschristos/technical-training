@@ -13,7 +13,7 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="training_date" required="True"/>
+                            <field name="training_date" required="1"/>
                         </group>
                     </sheet>
                 </form>
