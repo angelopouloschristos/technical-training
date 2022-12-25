@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from odoo import api, models, fields
 
+
 ##version fonctionnel
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -10,7 +11,6 @@ class SaleOrder(models.Model):
         # Récupération du partenaire associé à la commande en cours
         partner = self.partner_id
         max_amount = self.user_has_required_level()
-
 
         # Vérification que le montant total de la commande ne dépasse pas le montant maximal de validation du partenaire
         if self.amount_total <= max_amount and self.amount_total <= partner.max_amount or partner.max_amount is None:
@@ -31,18 +31,31 @@ class SaleOrder(models.Model):
                 })
 
             self.env.user.approved_orders_count += 1
-            
+
             self.message_post(body="La commande a été approuvée par %s" % self.env.user.name)
 
             # Confirmation de la commande
             return super(SaleOrder, self).action_confirm()
 
-
-
         else:
             self.message_post(
                 body="La commande nécessite une approbation de la part d'un gestionnaire de niveau supérieur.")
 
+            # Sélection du gestionnaire avec le moins d'approbations en attente d'assignation (optionnel)
+            manager = self.select_manager()
+            if not manager:
+                return
+
+            # Création d'une activité pour le gestionnaire sélectionné
+            self.activity_schedule(
+                'mail.activity_data_todo',
+                user_id=manager.id,
+                note="Demande d'approbation de la commande %s" % self.name,
+            )
+
+            # Envoi d'un message à l'utilisateur pour lui signaler que la demande d'approbation a été envoyée au gestionnaire
+            self.message_post(
+                body="La demande d'approbation de la commande a été envoyée au gestionnaire %s" % manager.name)
             # Renvoi d'une action pour afficher la commande et lui demander l'approbation
             return {
                 'type': 'ir.actions.act_window',
@@ -52,6 +65,7 @@ class SaleOrder(models.Model):
                 'target': 'current',
             }
 
+        # ... autres méthodes ...
 
     def user_has_required_level(self):
         # Récupération de l'utilisateur actuel
@@ -67,10 +81,10 @@ class SaleOrder(models.Model):
         for group in groups:
             if group.max_amount:
                 maxamountapproval = group.max_amount
-                #user_level = max(user_level, group.max_amount)
+                # user_level = max(user_level, group.max_amount)
 
-        # Comparaison du niveau de gestionnaire de l'utilisateur au niveau requis
-        #return user_level >= required_level
+        # Comparaison du niveau de gestionnaire de l'utilisateur auniveau requis
+        # return user_level >= required_level
         return maxamountapproval
 
     def action_request_approval(self):
@@ -101,34 +115,37 @@ class SaleOrder(models.Model):
 
     def select_manager(self):
         """
-        Sélectionne le gestionnaire avec le moins d'approbations en attente d'assignation.
+        Sélection du gestionnaire avec le moins d'approbations en attente d'assignation (optionnel).
         """
-        # Récupération de tous les gestionnaires de l'entreprise
-        managers = self.env['res.users'].search([('groups_id', 'in', self.env.ref('base.group_user').id)])
+        # Récupération des gestionnaires ayant un niveau supérieur ou égal au niveau requis
+        managers = self.env['res.users'].search([('approved_orders_count', '<', 5)])
+
         if not managers:
             return
 
-        # Initialisation du gestionnaire sélectionné à la première valeur de la liste de gestionnaires
-        selected_manager = managers[0]
+        # Tri des gestionnaires par nombre d'approbations en attente d'assignation
+        sorted_managers = sorted(managers, key=lambda x: x.approved_orders_count)
 
-        # Recherche du gestionnaire avec le moins d'approbations en attente d'assignation
-        for manager in managers:
-            # Récupération des activités en attente d'assignation du gestionnaire
-            pending_approvals = self.env['mail.activity'].search_count([
-                ('user_id', '=', manager.id),
-                ('state', '=', 'to_do'),
-            ])
-            # Comparaison du nombre d'approbations en attente du gestionnaire courant au nombre d'approbations en attente du gestionnaire sélectionné
-            # Récupération du nombre d'approbations en attente du gestionnaire sélectionné
-            selected_manager_pending_approvals = self.env['mail.activity'].search_count([
-                ('user_id', '=', selected_manager.id),
-                ('state', '=', 'to_do'),
-            ])
-            # Si le nombre d'approbations en attente du gestionnaire courant est inférieur au nombre d'approbations en attente du gestionnaire sélectionné, le gestionnaire courant devient le gestionnaire sélectionné
-            if pending_approvals < selected_manager_pending_approvals:
-                selected_manager = manager
+        # Renvoi du gestionnaire avec le moins d'approbations en attente d'assignation
+        return sorted_managers[0]
 
-        # Renvoi du gestionnaire sélectionné
-        return selected_manager
+    def activity_schedule(self, summary, **kwargs):
+        """
+        Création d'une activité.
+        """
+        self.activity_schedule_with_view(
+            'mail.mail_activity_data_warning',
+            summary=summary,
+            **kwargs
+        )
 
-
+    def activity_schedule_with_view(self, view_id, summary, **kwargs):
+        """
+        Création d'une activité avec une vue spécifique.
+        """
+        self.ensure_one()
+        ctx = kwargs.pop('context', {})
+        ctx['default_res_id'] = self.id
+        ctx['default_res_model'] = self._name
+        ctx['default_activity_type_id'] = self.env.ref(view_id).id
+        ctx['default_summary'] = summary
