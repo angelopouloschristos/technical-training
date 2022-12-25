@@ -1,19 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="ir.ui.view" id="choose_training_date_wizard_form">
-        <field name="name">Choose Training Date Wizard Form</field>
-        <field name="model">choose.training.date.wizard</field>
-        <field name="arch" type="xml">
-            <form>
-                <header>
-                    <button string="Confirm" type="object" name="confirm" class="btn-primary"/>
-                    <button string="Cancel" type="object" name="cancel" class="btn-secondary" />
-                </header>
-                <sheet>
-                    <group>
-                        <field name="training_date"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
+    <data>
+        <record model="ir.ui.view" id="choose_training_date_wizard_form">
+            <field name="name">Choose Training Date Wizard Form</field>
+            <field name="model">choose.training.date.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Confirm" type="object" name="confirm" class="btn-primary"/>
+                        <button string="Cancel" type="object" name="cancel" class="btn-secondary" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="training_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
 </odoo>
