@@ -11,7 +11,7 @@
                     <field name="employee_id"/>
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="after">
-                    <button name="open_choose_training_date_wizard" string="Choose Training Date" type="action"/>
+                    <button name="open_choose_training_date_wizard" string="Choose Training Date"/>
                 </xpath>
             </field>
         </record>

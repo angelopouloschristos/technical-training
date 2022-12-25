@@ -11,9 +11,11 @@
                     <field name="end_date" required="1"/>
                 </group>
                 <footer>
-                    <button name="confirm_dates" string="Confirm" type="object" class="btn-primary"/>
-                    or
-                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <xpath expr="//button[@name='action_confirm']" position="after">
+                        <button name="confirm_dates" string="Confirm"/>
+                        or
+                        <button string="Cancel" special="cancel"/>
+                    </xpath>
                 </footer>
             </form>
         </field>
