@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
                         'stop': line.training_date + timedelta(hours=8),
                         'allday': True,
                         'partner_ids': [(4, partner.id)],
-                        'rrule': 'FREQ=YEARLY;INTERVAL=1',
+                        'rrule': 'FREQ=DAILY;INTERVAL=1',
                     })
             self.env.user.approved_orders_count += 1
 
