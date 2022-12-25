@@ -10,3 +10,13 @@ class ChooseTrainingDateWizard(models.TransientModel):
     def confirm_dates(self):
         for line in self.order_id.order_line:
             line.write({'training_date': self.start_date})
+
+
+
+    def open_choose_training_date_wizard():
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'choose.training.date.wizard',  # Correction ici
+            'view_mode': 'form',
+            'target': 'new',
+        }

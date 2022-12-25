@@ -3,14 +3,6 @@ from datetime import timedelta
 from odoo import api, models, fields
 
 
-##version fonctionnel
-def open_choose_training_date_wizard():
-    return {
-        'type': 'ir.actions.act_window',
-        'res_model': 'choose.training.date.wizard',  # Correction ici
-        'view_mode': 'form',
-        'target': 'new',
-    }
 
 
 class SaleOrder(models.Model):
